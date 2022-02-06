@@ -9,12 +9,6 @@ import Button from '../Components/Button';
 export default function Home() {
   return (
     <div className="w-full h-full">
-      <Head>
-        <title>QR Code - contact tracing</title>
-        <meta name="description" content="Organisation pour le self du LP2I." />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className="w-full h-full bg-three text-one">
         <div className="
           w-full h-full
