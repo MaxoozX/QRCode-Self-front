@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body, #__next {
+    @apply w-full h-full;
+}
+
+
+
+
+/*---------------------------------------------*/
+/* Popup */
+
+.popup-btn {
+    @apply p-3 text-3xl font-bold rounded-lg;
+}
+
+.popup-form-input {
+    @apply my-2;
+}
+
+/*---------------------------------------------*/
+/* About Page */
+
+.about-techstack-ul > li {
+    @apply flex items-center m-2;
+}
+
+.about-techstack-ul > li > span {
+    @apply ml-4;
+}
+
+/*---------------------------------------------*/
