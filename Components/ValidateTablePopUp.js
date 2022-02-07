@@ -75,7 +75,9 @@ const ValidateTablePopUp = ({ handleClose, tableID }) => {
         const url = new URL(`${API_URL}/settle-table`);
         url.search = new URLSearchParams([["tableid", tableID.current],])
         
-        const res = await fetch(url, { method: "PUT", body });
+        const res = await fetch(url, { method: "PUT", body, headers: {
+            "Content-type": "application/json"
+        }, });
         const data = await res.json();
 
         if(data?.status === "ok") {

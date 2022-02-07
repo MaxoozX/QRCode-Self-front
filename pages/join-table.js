@@ -1,8 +1,8 @@
-import { useState, useEffect, createRef } from 'react';
+import { useEffect, createRef } from 'react';
 import { useRouter } from "next/router";
 
-const API_URL = "http://127.0.0.1:8000"
-const LOCAL_URL = "http://127.0.0.1:3000"
+import { LOCAL_URL } from '../constants';
+import Head from 'next/head';
 
 /*
  * Create form to request access token from Google's OAuth 2.0 server.
@@ -17,7 +17,7 @@ function oauthSignIn(form, tableID) {
   
     // Parameters to pass to OAuth 2.0 endpoint.
     var params = {'client_id': '403620627981-163t2jvlkh52t02pa1sb03lbo52fobpg.apps.googleusercontent.com',
-                  'redirect_uri': 'http://localhost:3000',
+                  'redirect_uri': LOCAL_URL,
                   'response_type': 'token',
                   'scope': 'https://www.googleapis.com/auth/userinfo.profile',
                   'include_granted_scopes': 'true',
@@ -45,11 +45,15 @@ const JoinTable = () => {
     useEffect(()=>{
         if(!router.isReady) return;
         oauthSignIn(formRef.current, router.query.tableid);
-    }, [router.isReady]);
+    }, [formRef, router]);
     
-    return (<div>
+    return (<>
+    <Head>
+      <title>Rejoindre une table</title>
+    </Head>
+    <div>
         <form ref={formRef} />
-    </div>)
+    </div></>)
 }
 
 export default JoinTable;

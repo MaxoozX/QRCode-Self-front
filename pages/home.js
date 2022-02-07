@@ -7,7 +7,10 @@ import { motion } from "framer-motion";
 import Button from '../Components/Button';
 
 export default function Home() {
-  return (
+  return (<>
+    <Head>
+      <title>Self LP2I</title>
+    </Head>
     <div className="w-full h-full">
       <main className="w-full h-full bg-three text-one">
         <div className="
@@ -21,7 +24,7 @@ export default function Home() {
             mb-10
             text-center
           ">Système de contact tracing</h1>
-          <Link href="/create-table">
+          <Link href="/create-table" passHref={true}>
             <Button
               className="
                 font-bold text-4xl lg:text-5xl
@@ -29,7 +32,7 @@ export default function Home() {
               "
             >Créer une table</Button>
           </Link>
-          <Link href="/tuto">
+          <Link href="/tuto" passHref={true}>
             <Button
               className="
                 font-bold text-3xl lg:text-4xl
@@ -37,7 +40,7 @@ export default function Home() {
               "
             >Comment ça marche ?</Button>
           </Link>
-          <Link href="/about">
+          <Link href="/about" passHref={true}>
             <Button
               className="
                 font-bold text-3xl lg:text-4xl
@@ -50,5 +53,5 @@ export default function Home() {
       </main>
 
     </div>
-  )
+    </>)
 }

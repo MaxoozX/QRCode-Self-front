@@ -68,7 +68,9 @@ const AddMemberByHandPopUp = ({ handleClose, tableID, ownerAsked, setOwnerAsked 
         const url = new URL(`${API_URL}/add-member`);
         url.search = new URLSearchParams([["tableid", tableID.current],])
         
-        const res = await fetch(url, { method: "PUT", body });
+        const res = await fetch(url, { method: "PUT", body, headers: {
+            "Content-type": "application/json"
+        }, });
         const data = await res.json();
 
         if(data?.status === "ok") {

@@ -11,6 +11,7 @@ import BackArrow from '../Components/BackArrow';
 import Button from '../Components/Button';
 
 import { API_URL, LOCAL_URL } from '../constants';
+import Head from 'next/head';
 
 const CreateTable = () => {
 
@@ -49,15 +50,17 @@ const CreateTable = () => {
 
     useInterval(updateTableContent, 5000);
 
-    useEffect(async () => {
+    useEffect( () => {
 
         setRequesting(true);
 
-        const res = await fetch(new URL(`${API_URL}/create-table`), {
+        (async ()=>{
+            const res = await fetch(new URL(`${API_URL}/create-table`), {
                 method: "POST",
             });
-        const data = await res.json();
-        tableID.current = data["table-ID"];
+            const data = await res.json();
+            tableID.current = data["table-ID"];
+        })()
 
         setRequesting(false);
 
@@ -65,93 +68,99 @@ const CreateTable = () => {
 
     }, []);
 
-    return (<main className="
-        w-full min-h-full
-        lg:p-4
-        flex flex-col justify-center items-center
-        bg-three
-        text-one
-        ">
-            <BackArrow />
-            <div className="
-                w-full mb-auto
-                lg:w-[95%] lg:h-[95%]
-                flex flex-col items-center
+    return (
+        <>
+            <Head>
+                <title>Création de table</title>
+            </Head>
+            <main className="
+            w-full min-h-full
+            lg:p-4
+            flex flex-col justify-center items-center
+            bg-three
+            text-one
             ">
-                <h1 className="
-                    font-bold
-                    text-5xl
-                    mt-6
-                ">Votre table</h1>
+                <BackArrow />
                 <div className="
-                    w-full
-                    flex flex-col items-center justify-evenly
+                    w-full mb-auto
+                    lg:w-[95%] lg:h-[95%]
+                    flex flex-col items-center
                 ">
+                    <h1 className="
+                        font-bold
+                        text-5xl
+                        mt-6
+                    ">Votre table</h1>
                     <div className="
                         w-full
-                        flex items-center justify-center
-                        mt-5
-                        p-2
+                        flex flex-col items-center justify-evenly
                     ">
-                        {requesting ? 
-                            <p className="text-2xl text-center">Connexion avec le serveur...</p> :
-                            (tableID.current ?
-                                <div className="
-                                    flex flex-col items-center justify-center
+                        <div className="
+                            w-full
+                            flex items-center justify-center
+                            mt-5
+                            p-2
+                        ">
+                            {requesting ? 
+                                <p className="text-2xl text-center">Connexion avec le serveur...</p> :
+                                (tableID.current ?
+                                    <div className="
+                                        flex flex-col items-center justify-center
 
-                                ">
-                                    {/* <span className="text-xl my-2">{tableID.current}</span> */}
-                                    <div className="bg-[#DFD4CD] p-3 rounded-xl">
-                                        <QRCode value={makeJoinTableURL()} size={width*0.75} className="" bgColor="#DFD4CD" fgColor="#36382e"/>
-                                    </div>
-                                    <a href={makeJoinTableURL()} target="_blank" className="text-sm lg:visible">{makeJoinTableURL()}</a>
-                                </div> : 
-                                <p className="text-2xl text-center">Problème de connexion avec le serveur</p>)}
-                        {/* TODO: Pass an appropriate size to the QRCode */}
-                    </div>
-                    <div className="
-                        w-full
-                        flex flex-col items-center
-                    ">
-                        <div className="flex justify-evenly w-full items-center m-4 mb-2">
-                            <h2 className="
-                                text-3xl
-                            ">Membres de la table :</h2>
-                            <div className="flex items-center justify-center w-16 h-16 text-3xl  rounded-full border-2">
-                                <span className="align-top pb-1.5">{members.length}/8</span>
-                            </div>
+                                    ">
+                                        {/* <span className="text-xl my-2">{tableID.current}</span> */}
+                                        <div className="bg-[#DFD4CD] p-3 rounded-xl">
+                                            <QRCode value={makeJoinTableURL()} size={width*0.75} className="" bgColor="#DFD4CD" fgColor="#36382e"/>
+                                        </div>
+                                        <a href={makeJoinTableURL()} target="_blank" rel="noreferrer" className="text-sm lg:visible">{makeJoinTableURL()}</a>
+                                    </div> : 
+                                    <p className="text-2xl text-center">Problème de connexion avec le serveur</p>)}
+                            {/* TODO: Pass an appropriate size to the QRCode */}
                         </div>
-                        <MemberList members={members} tableID={tableID} />
-                        <Button
-                            onClick={openMemberPopUp}
-                            className="
-                                text-2xl font-bold
-                                mt-2 mb-4
-                                rounded-lg p-2
-                            "
-                        >Ajouter manuellement</Button>
-                        <Button
-                            onClick={openValidatePopUp}
-                            className="
-                                text-2xl font-bold
-                                mt-2 mb-4
-                                rounded-lg p-2
-                            "
-                        >Valider la table</Button>
+                        <div className="
+                            w-full
+                            flex flex-col items-center
+                        ">
+                            <div className="flex justify-evenly w-full items-center m-4 mb-2">
+                                <h2 className="
+                                    text-3xl
+                                ">Membres de la table :</h2>
+                                <div className="flex items-center justify-center w-16 h-16 text-3xl  rounded-full border-2">
+                                    <span className="align-top pb-1.5">{members.length}/8</span>
+                                </div>
+                            </div>
+                            <MemberList members={members} tableID={tableID} />
+                            <Button
+                                onClick={openMemberPopUp}
+                                className="
+                                    text-2xl font-bold
+                                    mt-2 mb-4
+                                    rounded-lg p-2
+                                "
+                            >Ajouter manuellement</Button>
+                            <Button
+                                onClick={openValidatePopUp}
+                                className="
+                                    text-2xl font-bold
+                                    mt-2 mb-4
+                                    rounded-lg p-2
+                                "
+                            >Valider la table</Button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <AnimatePresence
-                initial={false} // Not animation on first appear
-                exitBeforeEnter={true} // wait for the animations to end
-            >
-                { addMemberPopUpVisible &&  <AddMemberByHandPopUp handleClose={closeMemberPopUp} tableID={tableID} ownerAsked={ownerPrompted} setOwnerAsked={setOwnerPrompted} /> }
-                { validateTablePopUpVisible && <ValidateTablePopUp handleClose={closeValidatePopUp} tableID={tableID}/> }
-            </AnimatePresence>
-            
-            
-    </main>);
+                <AnimatePresence
+                    initial={false} // Not animation on first appear
+                    exitBeforeEnter={true} // wait for the animations to end
+                >
+                    { addMemberPopUpVisible &&  <AddMemberByHandPopUp handleClose={closeMemberPopUp} tableID={tableID} ownerAsked={ownerPrompted} setOwnerAsked={setOwnerPrompted} /> }
+                    { validateTablePopUpVisible && <ValidateTablePopUp handleClose={closeValidatePopUp} tableID={tableID}/> }
+                </AnimatePresence>
+                
+                
+        </main>
+    </>);
 }
 
 export default CreateTable;

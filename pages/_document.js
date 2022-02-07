@@ -12,9 +12,8 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-        <title>QR Code - Self</title>
-      <meta name="description" content="Organisation pour le self du LP2I." />
-      <Favicon />
+          <meta name="description" content="Organisation pour le self du LP2I." />
+          <Favicon />
         </Head>
         <body>
           <Main />
