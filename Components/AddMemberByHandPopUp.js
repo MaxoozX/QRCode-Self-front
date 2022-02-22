@@ -68,17 +68,19 @@ const AddMemberByHandPopUp = ({ handleClose, tableID, ownerAsked, setOwnerAsked 
         const url = new URL(`${API_URL}/add-member`);
         url.search = new URLSearchParams([["tableid", tableID.current],])
         
-        const res = await fetch(url, { method: "PUT", body, headers: {
-            "Content-type": "application/json"
-        }, });
-        const data = await res.json();
-
-        if(data?.status === "ok") {
-            setOwnerAsked(false);
-            handleClose(); // Leave the page
-        } else {
-            setErrorMessage(data.message); // Display the error message
-        }
+        try {
+            const res = await fetch(url, { method: "PUT", body, headers: {
+                "Content-type": "application/json"
+            }, });
+            const data = await res.json();
+    
+            if(data?.status === "ok") {
+                setOwnerAsked(false);
+                handleClose(); // Leave the page
+            } else {
+                setErrorMessage(data.message); // Display the error message
+            }
+        } catch(error) {}
     }
 
     return (
@@ -100,7 +102,7 @@ const AddMemberByHandPopUp = ({ handleClose, tableID, ownerAsked, setOwnerAsked 
                 <input type="text" placeholder="Nom" className="popup-form-input" onChange={setLastname} />
                 <input type="text" placeholder="Classe" className="popup-form-input" onChange={setClassID} />
 
-                {errorMessage ? <p className="text-lg lg:text-3xl text-red-700">{errorMessage}</p> : null}
+                {errorMessage ? <p className="text-center text-lg lg:text-3xl text-red-700">{errorMessage}</p> : null}
             </form>
             <div className="
                 w-5/6 h-1/5

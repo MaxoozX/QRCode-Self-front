@@ -17,7 +17,6 @@ const MembersListElement = ({ firstname, lastname, classID, ID, tableID }) => {
         const data = await res.json();
         if(data.status === "ok") {
             console.log("successfully removed member");
-            setClassNames("invisible");
         } else {
             console.log(data.message);
         }

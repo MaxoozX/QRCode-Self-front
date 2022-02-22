@@ -111,7 +111,7 @@ const ValidateTablePopUp = ({ handleClose, tableID }) => {
                     placeholder="Votre table"
                 />
 
-                {errorMessage ? <p className="text-lg lg:text-3xl text-red-700">{errorMessage}</p> : null}
+                {errorMessage ? <p className="text-center text-lg lg:text-3xl text-red-700">{errorMessage}</p> : null}
             </form>
             <div className="
                 w-5/6 h-1/5

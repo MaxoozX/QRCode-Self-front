@@ -4,6 +4,8 @@ import QRCode from "qrcode.react";
 
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { io } from "socket.io-client";
+
 import MemberList from '../Components/MemberList';
 import AddMemberByHandPopUp from '../Components/AddMemberByHandPopUp';
 import ValidateTablePopUp from '../Components/ValidateTablePopUp';
@@ -14,6 +16,8 @@ import { API_URL, LOCAL_URL } from '../constants';
 import Head from 'next/head';
 
 const CreateTable = () => {
+
+    const [socket, setSocket] = useState(null);
 
     const tableID = useRef();
     const [requesting, setRequesting] = useState(false);
@@ -48,8 +52,7 @@ const CreateTable = () => {
         return url.toString();
     }
 
-    useInterval(updateTableContent, 5000);
-
+    // Requête création table
     useEffect( () => {
 
         setRequesting(true);
@@ -67,6 +70,33 @@ const CreateTable = () => {
         setWidth(window.innerWidth);
 
     }, []);
+
+    // Websocket
+    useEffect(() => {
+
+        if(!tableID.current) return;
+
+        const localSocket = io(API_URL, {
+            rejectUnauthorized: false,
+            transports: ['websocket', 'polling', 'flashsocket'],
+            query: `room_id=${tableID.current}`
+        });
+
+        localSocket.on("connect_error", (err) => {
+            console.log(`connect_error due to ${err.message}`);
+        });
+
+        localSocket.on("table_update", data => {
+            console.log(data)
+            setMembers(data.members)
+        })
+
+        setSocket(localSocket);
+
+        updateTableContent()
+
+        return () => localSocket.close();
+    }, [ownerPrompted]);
 
     return (
         <>
